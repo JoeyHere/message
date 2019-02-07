@@ -1,0 +1,52 @@
+<h3>XO</h3>
+
+<ul>
+  <% @messages.each do |message| %>
+        <li>
+          <b><%= message.content %></b><small> - <%= message.user.name %></small>
+        </li>
+      <br>
+  <% end %>
+</ul>
+
+<%= form_for @message, url: {controller: "messages", action: "create"} do |f| %>
+
+  <%= f.label :content , "🗣"%>
+  <%= f.text_area :content %>
+
+  <br>
+
+  <%= f.label :user_id %>
+  <%= f.collection_select :user_id, User.all, :id, :name, {:selected => @user.id} if @user %>
+  <%= f.collection_select :user_id, User.all, :id, :name if !@user %>
+  <br>
+
+  <%= f.label :password %>
+  <%= f.text_field :password, :value => @user.password if @user %>
+  <%= f.text_field :password if !@user %>
+
+  <br>
+
+  <%=  f.submit %>
+<% end %>
+
+<br>
+<br>
+<br>
+
+<h3>New User:</h3>
+
+<%= form_for @newuser, url: {controller: "users", action: "create"} do |f| %>
+
+  <%= f.label :name , "Username"%>
+  <%= f.text_field :name %>
+
+  <br>
+
+  <%= f.label :password %>
+  <%= f.text_field :password %>
+
+  <br>
+
+  <%=  f.submit %>
+<% end %>
